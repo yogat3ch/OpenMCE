@@ -1,47 +1,38 @@
-library(shiny)
 library(ShinyEditor)
-
 # UI
-ui <- fluidPage(
-
-  # Setup
-  use_editor("API-Key"),
+ui <- fluidPage(# Setup
+  use_editor(Sys.getenv("TINYMCE_KEY")),
   titlePanel("HTML Generator"),
 
   # Text Input 1
   fluidRow(
     column(
       width = 6,
-      editor('textcontent'),
+      editor_ui('textcontent'),
       br(),
       actionButton(
         "generatehtml",
         "Generate HTML Code",
         icon = icon("code"),
         class = "btn-primary"
-      )),
+      )
+    ),
 
-    column(
-      width = 6,
-      tags$pre(textOutput("rawText"))
-    )
-  )
-
-)
+    column(width = 6,
+           uiOutput("rawText"))
+  ))
 
 # Server
 server <- function(input, output, session) {
-
   # Generate HTML
+  content <- reactiveVal()
+  editor_server("textcontent", inputId = "mytext")
+  output$rawText <- renderUI({
+    req(content())
+    shiny::HTML(content())
+  })
   observeEvent(input$generatehtml, {
-
-    editorText(session, editorid = 'textcontent', outputid = 'mytext')
-
-    output$rawText <- renderText({
-      req(input$mytext)
-      enc2utf8(input$mytext)
-    })
-
+    content(input$mytext)
   })
 
 }
