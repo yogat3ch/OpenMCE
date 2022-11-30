@@ -1,14 +1,15 @@
-Package: ShinyEditor
+Package: OpenMCE
 Type: Package
 Title: HTML Editor
 Version: 1.0.0
-Author: c(person("Stephen", "Holsenbeck", email = "sholsen@alumni.emory.edu", role = c("ctb", "aut", "cre")), person("Deepanshu","Bhalla",email="deepanshu88.us@gmail.com",role=c("aut"),comment="Original creator"))
+Author: c(person("Stephen", "Holsenbeck", email = "sholsen@alumni.emory.edu", role = c("ctb", "aut", "cre")))
 Maintainer: Stephen Holsenbeck <sholsen@alumni.emory.edu>
-Description: HTML Editor in Shiny App via tiny MCE
-License: GPL-2
+Description: The TinyMCE Rich Text Editor for Shiny
+License: AGPL-3
 Depends:
-    R (>= 3.1)
+    R (>= 4.2)
 Imports: 
+    htmltools,
     jsonlite,
     rlang,
     shiny,
@@ -19,5 +20,5 @@ Remotes:
 Encoding: UTF-8
 RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/yogat3ch/ShinyEditor/
-BugReports: https://github.com/yogat3ch/ShinyEditor/issues/
+URL: https://github.com/yogat3ch/OpenMCE/
+BugReports: https://github.com/yogat3ch/OpenMCE/issues/
