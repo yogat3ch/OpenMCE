@@ -1,4 +1,4 @@
-library(ShinyEditor)
+library(OpenMCE)
 
 # UI
 ui <- fluidPage(
@@ -15,7 +15,7 @@ ui <- fluidPage(
       br(),
       actionButton(
         "generatehtml",
-        "Generate HTML Code",
+        "Render Input as HTML",
         icon = icon("code"),
         class = "btn-primary"
       )),

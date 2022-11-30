@@ -1,10 +1,10 @@
-library(ShinyEditor)
+library(OpenMCE)
  # UI
  ui <- fluidPage(
 
    # Setup
    use_editor(),
-   titlePanel("HTML Generator"),
+   titlePanel("Editor Update Example"),
 
    # Text Input 1
    fluidRow(
@@ -14,7 +14,7 @@ library(ShinyEditor)
        br(),
        actionButton(
          "generatehtml",
-         "Generate HTML Code",
+         "Render Input as HTML",
          icon = icon("code"),
          class = "btn-primary"
        ), actionButton("updatedata", "Update Editor", icon = icon("edit"))),
@@ -42,7 +42,7 @@ library(ShinyEditor)
    })
 
    observeEvent(input$updatedata, {
-    update_editor(id = "textcontent",
+    editor_update(inputId = "textcontent",
                   text = "<b>Sample Text</b>")
 
   })

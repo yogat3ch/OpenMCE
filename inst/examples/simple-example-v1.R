@@ -1,8 +1,8 @@
-library(ShinyEditor)
+library(OpenMCE)
 # UI
 ui <- fluidPage(# Setup
-  use_editor(Sys.getenv("TINYMCE_KEY")),
-  titlePanel("HTML Generator"),
+  use_editor(use_api = TRUE),
+  titlePanel("A Simple Example"),
 
   # Text Input 1
   fluidRow(
@@ -12,7 +12,7 @@ ui <- fluidPage(# Setup
       br(),
       actionButton(
         "generatehtml",
-        "Generate HTML Code",
+        "Render Input as HTML",
         icon = icon("code"),
         class = "btn-primary"
       )
