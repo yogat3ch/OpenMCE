@@ -1,3 +1,18 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # OpenMCE : The TinyMCE Rich Text Editor for Shiny
@@ -11,7 +26,7 @@ Look no further than TinyMCE, as they indicate on their site:
 
 > TinyMCE gives you total control over your rich text editing.
 
-
+## Deployment Details
 This package can use the [Tiny Cloud](https://www.tiny.cloud/) if you have a subscription and set up the `TINYMCE_KEY` *.Renviron* variable (see `?tinymce_key` for setup instructions). If you don't have a subscription, TinyMCE v6.3.0 open source is bundled with this package and will be used in the absence of an API key. The bundled dependencies will include a small Upgrade button on the top right of the editor.
 
 ## Installation
@@ -35,7 +50,11 @@ examples <- c(
 )
 code_examples <- lapply(rlang::set_names(examples),  \(x) {
   txt <- readLines(system.file(package = "OpenMCE", "examples", paste0(x, "-v1.R")))
-  htmltools::tags$code(paste0(txt, collapse = "\n"))
+  paste0(
+    "```r\n",
+    paste0(txt, collapse = "\n"),
+  "\n```"
+  )
 })
 ```
 
@@ -44,7 +63,7 @@ code_examples <- lapply(rlang::set_names(examples),  \(x) {
 This example uses the TinyMCE editor with basic features.
 
 ```{r echo=FALSE, results='asis'}
-code_examples$`simple-example`
+cat(code_examples$`simple-example`)
 ```
 
 ### A Feature-rich Editor Example
@@ -52,7 +71,7 @@ code_examples$`simple-example`
 This example highlights some of the many features of the TinyMCE editor.
 
 ```{r echo=FALSE, results='asis'}
-code_examples$`options-example`
+cat(code_examples$`options-example`)
 ```
 
 ### How to use `editor_update`
@@ -60,7 +79,7 @@ code_examples$`options-example`
 This example demonstrates how to use the `editor_update` function for dynamic updating of the editor from the server.
 
 ```{r echo=FALSE, results='asis'}
-code_examples$`editor_update`
+cat(code_examples$`editor_update`)
 ```
 
 ### How to use `editor_text`
@@ -68,5 +87,8 @@ code_examples$`editor_update`
 This example demonstrates how to manually retrieve the rich text entered in the editor as character encoded HTML
 
 ```{r echo=FALSE, results='asis'}
-code_examples$`editor_text`
+cat(code_examples$`editor_text`)
 ```
+
+<hr>
+This package was inspired by ShinyEditor [deepanshu88/ShinyEditor](https://github.com/deepanshu88/ShinyEditor)
