@@ -1,6 +1,6 @@
 Package: OpenMCE
 Type: Package
-Title: HTML Editor
+Title: The TinyMCE for Shiny
 Version: 1.0.0
 Author: c(person("Stephen", "Holsenbeck", email = "sholsen@alumni.emory.edu", role = c("ctb", "aut", "cre")))
 Maintainer: Stephen Holsenbeck <sholsen@alumni.emory.edu>
