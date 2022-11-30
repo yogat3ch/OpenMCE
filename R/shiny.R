@@ -7,11 +7,11 @@
 #'
 #' @return \code{shiny.tag}˝
 #' @export
-#' @author Deepanshu Bhalla & Stephen Holsenbeck
+#'
 #'
 #' @examples
 #' library(shiny)
-#' library(ShinyEditor)
+#' library(OpenMCE)
 #'
 #' # UI
 #' ui <- fluidPage(# Setup
@@ -105,7 +105,7 @@ editor_server <- function(selector, asis = FALSE, options = NULL, inputId, sessi
 
 
     } else {
-      options$setup =  ShinyEditor::json_verbatim(paste0(
+      options$setup =  OpenMCE::json_verbatim(paste0(
         "function(editor) {
         ",.setup,"
                     }"
@@ -121,13 +121,17 @@ editor_server <- function(selector, asis = FALSE, options = NULL, inputId, sessi
   init_chr <- jsonlite::toJSON(init, auto_unbox = TRUE, pretty = TRUE, json_verbatim = TRUE)
 
   shiny::isolate({
-    if (!.selector %in% se_env$init_ids) {
-      #TODO Add an event listener that watches for compositionend and calls the custom code to save the input constantly
       shinyjs::runjs(paste0("tinymce.init(",init_chr,");"))
-      assign("init_ids", c(se_env$init_ids, init$selector), envir = se_env)
-    }
+    # This may not be needed after all
+    # if (!.selector %in% se_env$init_ids) {
+    #   #TODO Add an event listener that watches for compositionend and calls the custom code to save the input constantly
+    #   assign("init_ids", c(se_env$init_ids, init$selector), envir = se_env)
+    # }
   })
 
+  shiny::onStop(function() {
+    se_env$init_ids <- NULL
+  })
 
 }
 #' Update HTML Editor on the client
@@ -142,7 +146,7 @@ editor_server <- function(selector, asis = FALSE, options = NULL, inputId, sessi
 #'
 #' @examples
 #' library(shiny)
-#' library(ShinyEditor)
+#' library(OpenMCE)
 #' # UI
 #' ui <- fluidPage(
 #'
@@ -186,7 +190,7 @@ editor_server <- function(selector, asis = FALSE, options = NULL, inputId, sessi
 #'   })
 #'
 #'   observeEvent(input$updatedata, {
-#'     update_editor(selector = "textcontent",
+#'     editor_update(selector = "textcontent",
 #'                   text = "<b>Sample Text</b>")
 #'
 #'   })
@@ -197,17 +201,6 @@ editor_server <- function(selector, asis = FALSE, options = NULL, inputId, sessi
 #' shinyApp(ui = ui, server = server)
 
 
-
-update_editor <- function(selector,
-                         text = "Sample Text",
-                         session = shiny::getDefaultReactiveDomain()) {
-
-  session$sendCustomMessage(type = "UpdateshinyEditor",
-                            list(id = id,
-                                 content = text
-                            ))
-
-}
 
 #' Extract HTML generated
 #'
@@ -224,7 +217,7 @@ update_editor <- function(selector,
 #'
 #' # UI
 #' ui <- fluidPage(# Setup
-#'   use_editor(Sys.getenv("TINYMCE_KEY")),
+#'   use_editor(),
 #'   titlePanel("HTML Generator"),
 #'
 #'   # Text Input 1
@@ -291,4 +284,28 @@ editor_text <- function (selector, asis = FALSE, inputId, as_fn = FALSE, session
     rlang::new_function(args = rlang::pairlist2(), body = ex)
   else
     eval(ex)
+}
+
+#' Update the TinyMCE instance
+#'
+#' @param inputId \code{chr} inputId of the editor
+#' @param text \code{chr/shiny.tag/shiny.tag.list} HTML and Shiny tags also supported
+#' @inheritParams shiny::onSessionEnded
+#' @inheritParams shinyjs::addClass
+#'
+#' @return Updates the input
+#' @export
+#'
+editor_update <- function(inputId,
+                          text = "Sample Text",
+                          session = shiny::getDefaultReactiveDomain(),
+                          asis = FALSE) {
+  if (inherits(text, c("shiny.tag", "shiny.tag.list")))
+    text <- htmltools::doRenderTags(text)
+
+  session$sendCustomMessage(type = "UpdateOpenMCE",
+                            list(id = ifelse(asis, inputId, session$ns(inputId)),
+                                 content = text
+                            ))
+
 }
