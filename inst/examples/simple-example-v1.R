@@ -1,7 +1,7 @@
 library(OpenMCE)
 # UI
 ui <- fluidPage(# Setup
-  use_editor(use_api = TRUE),
+  use_editor(),
   titlePanel("A Simple Example"),
 
   # Text Input 1
