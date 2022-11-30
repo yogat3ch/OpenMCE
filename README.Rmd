@@ -1,0 +1,72 @@
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# OpenMCE : The TinyMCE Rich Text Editor for Shiny
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+Looking to add a Rich Text editing field to your Shiny app? 
+Look no further than TinyMCE, as they indicate on their site:
+
+> TinyMCE gives you total control over your rich text editing.
+
+
+This package can use the [Tiny Cloud](https://www.tiny.cloud/) if you have a subscription and set up the `TINYMCE_KEY` *.Renviron* variable (see `?tinymce_key` for setup instructions). If you don't have a subscription, TinyMCE v6.3.0 open source is bundled with this package and will be used in the absence of an API key. The bundled dependencies will include a small Upgrade button on the top right of the editor.
+
+## Installation
+
+``` r
+require("remotes")
+remotes::install_github("yogat3ch/OpenMCE")
+```
+
+### Setting up an API Key (Optional)
+
+Register at [tiny.cloud](https://www.tiny.cloud/) and on your [dashboard](https://www.tiny.cloud/my-account/dashboard/) you'll find the Tiny API Key. The API key is a trial version with \~80 free loads of the editor. You can authorize domains with which you wish to use the key by clicking `Add domain`. See the [setup guide](https://www.tiny.cloud/blog/how-to-get-tinymce-cloud-up-in-less-than-5-minutes/) for more details.
+
+## Examples
+
+```{r, results='hide', echo=FALSE}
+examples <- c(
+  paste0(c("options", "simple"), sep = "-", "example"),
+  "editor_update",
+  "editor_text"
+)
+code_examples <- lapply(rlang::set_names(examples),  \(x) {
+  txt <- readLines(system.file(package = "OpenMCE", "examples", paste0(x, "-v1.R")))
+  htmltools::tags$code(paste0(txt, collapse = "\n"))
+})
+```
+
+### A Minimal Example
+
+This example uses the TinyMCE editor with basic features.
+
+```{r echo=FALSE, results='asis'}
+code_examples$`simple-example`
+```
+
+### A Feature-rich Editor Example
+
+This example highlights some of the many features of the TinyMCE editor.
+
+```{r echo=FALSE, results='asis'}
+code_examples$`options-example`
+```
+
+### How to use `editor_update`
+
+This example demonstrates how to use the `editor_update` function for dynamic updating of the editor from the server.
+
+```{r echo=FALSE, results='asis'}
+code_examples$`editor_update`
+```
+
+### How to use `editor_text`
+
+This example demonstrates how to manually retrieve the rich text entered in the editor as character encoded HTML
+
+```{r echo=FALSE, results='asis'}
+code_examples$`editor_text`
+```
