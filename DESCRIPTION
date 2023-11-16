@@ -1,7 +1,7 @@
 Package: OpenMCE
 Type: Package
 Title: The TinyMCE for Shiny
-Version: 1.0.0
+Version: 1.0.1
 Author: c(person("Stephen", "Holsenbeck", email = "sholsen@alumni.emory.edu", role = c("ctb", "aut", "cre")))
 Maintainer: Stephen Holsenbeck <sholsen@alumni.emory.edu>
 Description: The TinyMCE Rich Text Editor for Shiny
