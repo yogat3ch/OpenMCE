@@ -51,6 +51,6 @@ tiny_mce_dependency <- function(API = "") {
     version = "6.3.0",
     package = "OpenMCE",
     src = src,
-    script = "tinymce.min.js"
+    script = list(src = "tinymce.min.js", defer = NA)
   )
 }
