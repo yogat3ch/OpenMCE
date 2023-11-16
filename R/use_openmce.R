@@ -11,24 +11,17 @@ use_editor <- function(API = Sys.getenv("TINYMCE_KEY"), use_api = FALSE) {
     UU::gwarn("No API Key provided. See {.code tinymce_key} to set one up.")
   }
 
-  shiny::singleton(shiny::tagList(
-    htmltools::attachDependencies(
-      shiny::tags$head(
-        shinyjs::useShinyjs(),
-        # shiny::tags$script(src = "OpenMCE-assets/OpenMCE.js"),
-        shiny::tags$script(
-          "Shiny.addCustomMessageHandler('HTMLText', function(data) {
-       eval(data.jscode)
-      });"
-        ),
-      shiny::tags$script(
-        "Shiny.addCustomMessageHandler('UpdateOpenMCE', function(data) {
-        tinyMCE.get(data.id).setContent(data.content);
-        $('#'+data.id).trigger('change');});"
-      )
-      ),
-      tiny_mce_dependency(API = ifelse(use_api, API, ""))
-    )
+  shiny::singleton(htmltools::attachDependencies(shiny::tagList(
+    htmltools::htmlDependency(
+      name = "OpenMCE",
+      version = utils::packageVersion("OpenMCE"),
+      package = "OpenMCE",
+      src = "srcjs",
+      script = list(src = "OpenMCE-deps.js", defer = NA)
+    ),
+    shinyjs::useShinyjs()
+    ),
+    tiny_mce_dependency(API = ifelse(use_api, API, ""))
   ))
 
 }
