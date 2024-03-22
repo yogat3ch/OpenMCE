@@ -297,15 +297,23 @@ editor_text <- function (selector, asis = FALSE, inputId, as_fn = FALSE, session
 #' @export
 #'
 editor_update <- function(inputId,
-                          text = "Sample Text",
+                          text = NULL,
+                          placeholder = NULL,
                           session = shiny::getDefaultReactiveDomain(),
                           asis = FALSE) {
   if (inherits(text, c("shiny.tag", "shiny.tag.list")))
     text <- htmltools::doRenderTags(text)
 
-  session$sendCustomMessage(type = "UpdateOpenMCE",
-                            list(id = ifelse(asis, inputId, session$ns(inputId)),
-                                 content = text
-                            ))
+  id <- ifelse(asis, inputId, session$ns(inputId))
+  if (!is.null(text))
+    session$sendCustomMessage(type = "UpdateOpenMCE",
+                            list(id = id,
+                                 content = text))
+  if (!is.null(placeholder))
+    session$sendCustomMessage(type = "PlaceholderText",
+                              list(id = id,
+                                   html = placeholder))
+
+
 
 }
